@@ -1,24 +1,18 @@
 "use strict";
 
-const xml2js = require('xml2js');
 const fs = require('fs');
+const x86_64 = require('./x86_64.json');
 
-const opcodes = (async () => {
-    let bytes = fs.readFileSync('./x86_64.xml', {});
-    let allOpcodes = await xml2js.parseStringPromise(bytes.toString());
-    return allOpcodes.InstructionSet.Instruction;
-})();
-
-const refByNames = (async () => {
+const refByNames = (() => {
     let result = {};
-    (await opcodes).forEach(opcode => result[opcode.$.name] = opcode);
+    x86_64.InstructionSet.Instruction.forEach(opcode => result[opcode.$.name] = opcode);
     return result;
 })();
 
-const refByOpcodes = (async () => {
+const refByOpcodes = (() => {
     let result = {};
 
-    (await opcodes).forEach(
+    x86_64.InstructionSet.Instruction.forEach(
         opcode => opcode.InstructionForm.forEach(
             form => {
                 // NOTE: ignore commands from "special" ISAs
@@ -40,15 +34,14 @@ function intToByKey(x) {
     return result;
 }
 
-(async () => {
+(() => {
     if (process.argv.length < 3) {
         console.error("Usage: node index.js <binary-file>");
         process.exit(-1);
     }
 
     let fileName = process.argv[2];
-    let refByOpcodes_ = await refByOpcodes;
-    let bytes = await fs.promises.readFile(fileName, {});
+    let bytes = fs.readFileSync(fileName, {});
     const frame = 1;
     for (let i = 0; i < bytes.length; i += 1) {
         if (i + frame - 1 >= bytes.length) continue;
@@ -56,8 +49,8 @@ function intToByKey(x) {
         let byteKey = '';
         for (let j = 0; j < frame; ++j) byteKey += intToByKey(bytes[i + j]);
 
-        if (typeof(refByOpcodes_[byteKey]) !== "undefined") {
-            console.log(byteKey + ': ' + refByOpcodes_[byteKey].$['go-name']);
+        if (typeof(refByOpcodes[byteKey]) !== "undefined") {
+            console.log(byteKey + ': ' + refByOpcodes[byteKey].$['go-name']);
         } else {
             console.log(byteKey + ': undefined');
         }

@@ -20,6 +20,13 @@ $ hexdump -C test
 $ node index.js test
 ```
 
-## Opcodes
+## Rebuilding JSON files with Opcodes
 
-Opcodes are stolen from: https://github.com/Maratyszcza/Opcodes
+Opcodes are stolen from https://github.com/Maratyszcza/Opcodes and
+their original format is XML.
+
+To rebuild JSON opcode files from the XMLs run
+
+```console
+$ node rebuild-json.js
+```
