@@ -2,6 +2,10 @@
 
 Disassmebler in JavaScript because C is old and obsolete
 
+**WARNING! This project is not in any way a useful product. It's a
+result of "Farting Around" just for the sake of it. Nothing works the
+way you'd expect it.**
+
 ## Dependencies
 
 - [node v13.5.0+](https://nodejs.org/)
