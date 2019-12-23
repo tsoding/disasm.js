@@ -4,7 +4,7 @@ const xml2js = require('xml2js');
 const fs = require('fs');
 
 const opcodes = (async () => {
-    let bytes = await fs.promises.readFile('./x86_64.xml', {});
+    let bytes = fs.readFileSync('./x86_64.xml', {});
     let allOpcodes = await xml2js.parseStringPromise(bytes.toString());
     return allOpcodes.InstructionSet.Instruction;
 })();
@@ -34,20 +34,26 @@ const refByOpcodes = (async () => {
     return result;
 })();
 
+function intToByKey(x) {
+    let result = x.toString(16).toUpperCase();
+    if (result.length == 1) result = '0' + result;
+    return result;
+}
+
 (async () => {
     let refByOpcodes_ = await refByOpcodes;
-    (await fs.promises.readFile('./test', {})).forEach(
-        byte => {
-            let byteKey = byte.toString(16).toUpperCase();
-            if (byteKey.length == 1) {
-                byteKey = '0' + byteKey;
-            }
+    let bytes = await fs.promises.readFile('./test', {});
+    const frame = 1;
+    for (let i = 0; i < bytes.length; i += 1) {
+        if (i + frame - 1 >= bytes.length) continue;
 
-            if (typeof(refByOpcodes_[byteKey]) !== "undefined") {
-                console.log(byteKey + ': ' + refByOpcodes_[byteKey].$['go-name']);
-            } else {
-                console.log(byteKey + ': undefined');
-            }
+        let byteKey = '';
+        for (let j = 0; j < frame; ++j) byteKey += intToByKey(bytes[i + j]);
+
+        if (typeof(refByOpcodes_[byteKey]) !== "undefined") {
+            console.log(byteKey + ': ' + refByOpcodes_[byteKey].$['go-name']);
+        } else {
+            console.log(byteKey + ': undefined');
         }
-    );
+    }
 })();
