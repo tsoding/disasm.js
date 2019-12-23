@@ -17,7 +17,7 @@ way you'd expect it.**
 $ npm install
 $ nasm test.asm
 $ hexdump -C test
-$ node index.js
+$ node index.js test
 ```
 
 ## Opcodes

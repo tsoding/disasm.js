@@ -41,8 +41,14 @@ function intToByKey(x) {
 }
 
 (async () => {
+    if (process.argv.length < 3) {
+        console.error("Usage: node index.js <binary-file>");
+        process.exit(-1);
+    }
+
+    let fileName = process.argv[2];
     let refByOpcodes_ = await refByOpcodes;
-    let bytes = await fs.promises.readFile('./test', {});
+    let bytes = await fs.promises.readFile(fileName, {});
     const frame = 1;
     for (let i = 0; i < bytes.length; i += 1) {
         if (i + frame - 1 >= bytes.length) continue;
