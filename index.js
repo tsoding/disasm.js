@@ -34,8 +34,20 @@ const refByOpcodes = (async () => {
     return result;
 })();
 
-module.exports = {
-    opcodes,
-    refByNames,
-    refByOpcodes
-};
+(async () => {
+    let refByOpcodes_ = await refByOpcodes;
+    (await fs.promises.readFile('./test', {})).forEach(
+        byte => {
+            let byteKey = byte.toString(16).toUpperCase();
+            if (byteKey.length == 1) {
+                byteKey = '0' + byteKey;
+            }
+
+            if (typeof(refByOpcodes_[byteKey]) !== "undefined") {
+                console.log(byteKey + ': ' + refByOpcodes_[byteKey].$['go-name']);
+            } else {
+                console.log(byteKey + ': undefined');
+            }
+        }
+    );
+})();
