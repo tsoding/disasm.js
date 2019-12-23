@@ -15,16 +15,9 @@ way you'd expect it.**
 
 ```console
 $ npm install
-$ node --experimental-repl-await
-> disasm = require('.')
-> opcodes = await disasm.opcodes   # access the opcode "database"
-```
-
-## Building Test Example
-
-```console
 $ nasm test.asm
 $ hexdump -C test
+$ node index.js
 ```
 
 ## Opcodes
