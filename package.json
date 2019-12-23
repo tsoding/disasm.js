@@ -1,0 +1,24 @@
+{
+  "name": "disasm",
+  "version": "1.0.0",
+  "description": "Disassmebler in JavaScript because C is old and obsolete",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tsoding/disasm.js.git"
+  },
+  "keywords": [
+    "diasm",
+    "epic",
+    "hacking"
+  ],
+  "author": "me",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tsoding/disasm.js/issues"
+  },
+  "homepage": "https://github.com/tsoding/disasm.js#readme"
+}
