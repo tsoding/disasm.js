@@ -18,7 +18,11 @@ const refByOpcodes = (() => {
                 // NOTE: ignore commands from "special" ISAs
                 if (typeof(form.ISA) === "undefined") {
                     form.Encoding.forEach(
-                        enc => result[enc.Opcode.map(x => x.$.byte).join('')] = form
+                        enc => {
+                            // TODO: what if the byteKey already exists in result?
+                            let byteKey = enc.Opcode.map(x => x.$.byte).join('');
+                            result[byteKey] = form;
+                        }
                     );
                 }
             }
